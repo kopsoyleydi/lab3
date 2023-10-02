@@ -109,19 +109,23 @@ for combo in combinations(A, n):
 
 print(list_of_sets)
 ####
-from itertools import groupby
-
 cars_list = [('BMW', 'X6'), ('Toyota', 'Yaris'), ('Fiat', '500'), ('Fiat', 'Panda'), ('Toyota', 'Camry 30')]
 
-cars_list.sort(key=lambda x: x[0])
+manufacturer_dict = {}
 
-for manufacturer, group in groupby(cars_list, key=lambda x: x[0]):
+for manufacturer, model in cars_list:
+    if manufacturer in manufacturer_dict:
+        if model in manufacturer_dict[manufacturer]:
+            manufacturer_dict[manufacturer][model] += 1
+        else:
+            manufacturer_dict[manufacturer][model] = 1
+    else:
+        manufacturer_dict[manufacturer] = {model: 1}
 
-    count = len(list(group))
+for manufacturer, models in manufacturer_dict.items():
+    print(manufacturer)
+    for model, count in models.items():
+        print(f"- {model} ({count} models)")
 
-    print(manufacturer, count)
-
-    for model in group:
-        print(f"- {model[1]}")
 
 ################################
